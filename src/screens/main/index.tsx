@@ -18,8 +18,11 @@ import {
 import styles from './styles';
 
 import {RESULTS, PERMISSIONS, request, check} from 'react-native-permissions';
+import {useNavigation} from '@react-navigation/native';
+import {screenNames} from '../../utils/screenNames';
 // import {permissionResult} from './@type';
 export default function DemoScreen() {
+  const navigation: any = useNavigation();
   // const originalUser = {
   //   name: 'Pratush',
   //   profile: {city: 'Varanasi', age: 24},
@@ -30,6 +33,7 @@ export default function DemoScreen() {
   // State to store selected image
   const [image, setImage] = useState<Asset | null>(null);
   const [denyCount, setDenyCount] = useState(0);
+  // const [isPickerVisible, setIsPickerVisible] = useState(false);
 
   // const [error, setError] = useState<String | null>('');
   // Image Picker options
@@ -50,7 +54,9 @@ export default function DemoScreen() {
   });
 
   const checkAndRequestPermission = async () => {
-    if (!permissionType) return;
+    if (!permissionType) {
+      return;
+    }
 
     const status = await check(permissionType);
 
@@ -80,27 +86,11 @@ export default function DemoScreen() {
           }
         } else {
           const req = await request(permissionType);
-          if (req === RESULTS.GRANTED) openGallery();
+          if (req === RESULTS.GRANTED) {
+            openGallery();
+          }
         }
         break;
-
-      // case RESULTS.DENIED:
-      //   if (Platform.OS === 'android') {
-      //     const req = await request(permissionType);
-      //     if (req === RESULTS.GRANTED) {
-      //       openGallery();
-      //     } else if (req === RESULTS.BLOCKED) {
-      //       Alert.alert(
-      //         'Permission Blocked',
-      //         'Please enable access in settings.',
-      //         [{text: 'Open Settings', onPress: () => Linking.openSettings()}],
-      //       );
-      //     }
-      //   } else {
-      //     const req = await request(permissionType);
-      //     if (req === RESULTS.GRANTED) openGallery();
-      //   }
-      //   break;
 
       // case RESULTS.DENIED:
       //   const req = await request(permissionType);
@@ -189,7 +179,6 @@ export default function DemoScreen() {
       {/* <View style={styles.spacing} /> */}
       {/* <Text style={styles.title}>Deep Copy & Linking Demo </Text>
       <Text style={styles.text1}>City: {user.profile.city}</Text> */}
-
       {/* <TouchableOpacity style={styles.button} onPress={updateShallow}>
         <Text style={styles.text}>ShallowCopy</Text>
       </TouchableOpacity> */}
@@ -199,34 +188,38 @@ export default function DemoScreen() {
       {/* <TouchableOpacity style={styles.button} onPress={realObject}>
         <Text style={styles.text}>backButton</Text>
       </TouchableOpacity> */}
-
       {image && <Image source={{uri: image.uri}} style={styles.images} />}
-
       <TouchableOpacity
         style={styles.button}
         onPress={checkAndRequestPermission}>
         <Text style={styles.text}>Image Picker</Text>
       </TouchableOpacity>
-
       <TouchableOpacity style={styles.button} onPress={removedImage}>
         <Text style={styles.text}>Reset</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate(screenNames.DATE_TIME)}>
+        <Text style={styles.text}>Click here to Check The Date&Time</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate(screenNames.PROFILE_SCREEN)}>
+        <Text style={styles.text}>Click here to For CWC Profile</Text>
       </TouchableOpacity>
 
       {/* <TouchableOpacity style={styles.button} onPress={requestCameraPermission}>
         <Text style={styles.text}>Asking Permissions</Text>
       </TouchableOpacity> */}
-
       {/* <TouchableOpacity style={styles.button} onPress={openEmail}>
         <Text style={styles.text}>Click To Send Email</Text>
       </TouchableOpacity> */}
       {/* <TouchableOpacity style={styles.button} onPress={callPhone}>
         <Text style={styles.text}>Click To Call</Text>
       </TouchableOpacity> */}
-
       {/* <TouchableOpacity style={styles.button} onPress={sendSMS}>
         <Text style={styles.text}>Click To Send Sms</Text>
       </TouchableOpacity> */}
-
       {/* <TouchableOpacity style={styles.button} onPress={openGithub}>
         <Text style={styles.text}>Click To Open Github</Text>
       </TouchableOpacity> */}

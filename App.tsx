@@ -1,8 +1,8 @@
 import React from 'react';
-import DemoScreen from './src/screens/mainScreen/Index';
+import RootNavigation from './src/navigator/rootNavigation';
 
 const App = () => {
-  return <DemoScreen />;
+  return <RootNavigation />;
 };
 
 export default App;
